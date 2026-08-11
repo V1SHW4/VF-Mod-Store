@@ -67,7 +67,6 @@ export default function AdBanner({ placement, className = "" }) {
 
   // If actual keys are present:
   if (config.format === "iframe") {
-    // Adsterra iframe source URL (standard highperformanceformat link)
     const iframeSrc = `https://www.highperformanceformat.com/watchnew?key=${config.key}`;
     return (
       <div style={bannerStyle} className={`ad-banner-iframe ${className}`}>
@@ -84,62 +83,37 @@ export default function AdBanner({ placement, className = "" }) {
     );
   }
 
-  // Script fallback loading
+  // Script format (e.g. Native banner scripts with invoke.js and container div)
+  // We use srcDoc in a sandboxed iframe to isolate the document.write script 
+  // execution and allow multiple instances of the same ad unit key.
+  const srcDoc = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; overflow: hidden; background: transparent; }
+          #container-${config.key} { width: 100%; height: auto; min-height: ${config.height}px; display: flex; justify-content: center; }
+        </style>
+      </head>
+      <body>
+        <div id="container-${config.key}"></div>
+        <script async="async" data-cfasync="false" src="https://${config.domain}/${config.key}/invoke.js"></script>
+      </body>
+    </html>
+  `;
+
   return (
-    <div 
-      ref={containerRef} 
-      style={bannerStyle} 
-      className={`ad-banner-script ${className}`}
-      id={`adsterra-${config.id}`}
-    >
-      <AdScriptInjector bannerConfig={config} containerRef={containerRef} />
+    <div style={bannerStyle} className={`ad-banner-script-iframe ${className}`}>
+      <iframe
+        srcDoc={srcDoc}
+        width="100%"
+        height={config.height}
+        frameBorder="0"
+        scrolling="no"
+        style={{ border: "none", overflow: "hidden" }}
+        title={`Adsterra Native Ad ${placement}`}
+      />
     </div>
   );
 }
 
-// Sub-component to inject Adsterra JavaScript config & execution script dynamically
-function AdScriptInjector({ bannerConfig, containerRef }) {
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Remove any previous children
-    container.innerHTML = "";
-
-    // 1. Create wrapper div with specific id
-    const adDiv = document.createElement("div");
-    adDiv.id = `container-${bannerConfig.key}`;
-    container.appendChild(adDiv);
-
-    // 2. Define atOptions
-    window[`atOptions_${bannerConfig.key}`] = {
-      key: bannerConfig.key,
-      format: "iframe",
-      height: bannerConfig.height,
-      width: bannerConfig.width,
-      params: {},
-    };
-
-    // 3. Create config script
-    const configScript = document.createElement("script");
-    configScript.type = "text/javascript";
-    configScript.innerHTML = `atOptions = window.atOptions_${bannerConfig.key};`;
-    container.appendChild(configScript);
-
-    // 4. Create invoke script
-    const invokeScript = document.createElement("script");
-    invokeScript.type = "text/javascript";
-    const adDomain = bannerConfig.domain || "www.highperformanceformat.com";
-    invokeScript.src = `https://${adDomain}/${bannerConfig.key}/invoke.js`;
-    container.appendChild(invokeScript);
-
-    return () => {
-      // Clean up injected elements on unmount
-      if (container) {
-        container.innerHTML = "";
-      }
-    };
-  }, [bannerConfig, containerRef]);
-
-  return null;
-}

@@ -16,12 +16,13 @@ export const ADS_CONFIG = {
   banners: {
     // Top Leaderboard (728x90 desktop / 320x50 mobile)
     topBanner: {
-      id: "top-ad-placement",
-      key: "a1b2c3d4e5f67890a1b2c3d4e5f67890", // Replace this when you get your 728x90 banner hash code
-      format: "iframe",
+      id: "container-f3a54c554dd66a5904906044e5f9aa56",
+      key: "f3a54c554dd66a5904906044e5f9aa56",
+      domain: "pl30802398.effectivecpmnetwork.com",
+      format: "script",
       width: 728,
       height: 90,
-      fallbackText: "Banner Ad Space (728x90)"
+      fallbackText: "Native Banner Ad Space"
     },
 
     // Mid Banner (Between suggestions and popular items - configured with Native Banner)
