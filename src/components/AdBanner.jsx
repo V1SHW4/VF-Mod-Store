@@ -129,7 +129,8 @@ function AdScriptInjector({ bannerConfig, containerRef }) {
     // 4. Create invoke script
     const invokeScript = document.createElement("script");
     invokeScript.type = "text/javascript";
-    invokeScript.src = `//www.highperformanceformat.com/${bannerConfig.key}/invoke.js`;
+    const adDomain = bannerConfig.domain || "www.highperformanceformat.com";
+    invokeScript.src = `https://${adDomain}/${bannerConfig.key}/invoke.js`;
     container.appendChild(invokeScript);
 
     return () => {

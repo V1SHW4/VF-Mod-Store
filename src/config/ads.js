@@ -7,49 +7,43 @@ export const ADS_CONFIG = {
   enabled: true,
 
   // 1. POPUNDER AD (Global Popunder - usually loaded once in the main layout)
-  // Put your Adsterra Popunder script URL here
-  // Example: '//pl22345678.highrateprofit.com/ab/cd/ef/abcdef0123456789.js'
-  popunderSrc: "",
+  popunderSrc: "https://pl30802397.effectivecpmnetwork.com/d5/0c/3e/d50c3e7cdff1a84ef1e6a02ee7021674.js",
 
   // 2. SOCIAL BAR AD (Global floating notification ad - loaded in layout)
-  // Put your Adsterra Social Bar script URL here
-  // Example: '//pl12345678.effectivecpmgate.com/ab/cd/ef/abcdef0123456789.js'
-  socialBarSrc: "",
+  socialBarSrc: "https://pl30802399.effectivecpmnetwork.com/29/95/a5/2995a5abe5bfa093409922069746f417.js",
 
   // 3. BANNER ADS
-  // If you use standard banners (e.g. 728x90 or 300x250 or 468x60), Adsterra provides 
-  // a combination of a configuration script and a placeholder div.
-  // Insert your respective placement properties below.
   banners: {
     // Top Leaderboard (728x90 desktop / 320x50 mobile)
     topBanner: {
       id: "top-ad-placement",
-      key: "a1b2c3d4e5f67890a1b2c3d4e5f67890", // Your 32-character Adsterra hash code
-      format: "iframe", // 'iframe' or 'script'
+      key: "a1b2c3d4e5f67890a1b2c3d4e5f67890", // Replace this when you get your 728x90 banner hash code
+      format: "iframe",
       width: 728,
       height: 90,
-      // You can define a fallback image or text if ads are blocked or during local testing
-      fallbackText: "Sponsored Ad Space"
+      fallbackText: "Banner Ad Space (728x90)"
     },
 
-    // Mid Banner (Between suggestions and popular items)
+    // Mid Banner (Between suggestions and popular items - configured with Native Banner)
     midBanner: {
-      id: "mid-ad-placement",
-      key: "b2c3d4e5f67890a1b2c3d4e5f67890a1",
-      format: "iframe",
+      id: "container-f3a54c554dd66a5904906044e5f9aa56",
+      key: "f3a54c554dd66a5904906044e5f9aa56",
+      domain: "pl30802398.effectivecpmnetwork.com",
+      format: "script",
       width: 468,
       height: 60,
-      fallbackText: "Promoted Tools & Scripts"
+      fallbackText: "Native Banner Ad Space"
     },
 
     // Detail Page Side/Bottom Banner (Displayed inside full-screen modal)
     detailBanner: {
-      id: "detail-ad-placement",
-      key: "c3d4e5f67890a1b2c3d4e5f67890a1b2",
-      format: "iframe",
+      id: "container-f3a54c554dd66a5904906044e5f9aa56",
+      key: "f3a54c554dd66a5904906044e5f9aa56",
+      domain: "pl30802398.effectivecpmnetwork.com",
+      format: "script",
       width: 300,
       height: 250,
-      fallbackText: "Featured Advertiser"
+      fallbackText: "Native Banner Ad Space"
     }
   }
 };
